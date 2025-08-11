@@ -18,8 +18,8 @@ def create_user_f(form, db):
     db.commit()
 
 
-def update_user_f(form, db, user):
-    if user.role == 'admin':
+def update_user_f(ident, form, db, user):
+    if user.id == ident:
         db.query(Users).filter(Users.id == user.id).update({
             Users.name: form.name,
             Users.username: form.username,
@@ -27,9 +27,9 @@ def update_user_f(form, db, user):
             Users.role: "admin",
         })
         db.commit()
+        return {"message": "user updated"}
 
 
 def delete_user_f(db, user):
-    if user.role == "admin":
-        db.query(Users).filter(Users.id == user.id).delete()
-        db.commit()
+    db.query(Users).filter(Users.id == user.id).delete()
+    db.commit()
