@@ -1,0 +1,11 @@
+from sqlalchemy import Column, Integer, String, ForeignKey
+from db import Base
+
+
+class Lesson(Base):
+    __tablename__ = 'lesson'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    icon = Column(String(255), nullable=False)
+    science_id = Column(Integer, ForeignKey('science.id'),  nullable=False)

@@ -1,0 +1,35 @@
+from routers.login import get_password_hash
+from utils.db_operations import save_in_db
+from models.users import Users
+
+
+def get_users(db, user):
+    if user.role == 'admin':
+        return db.query(Users).all()
+
+
+def create_user_f(form, db):
+    user = Users(
+        fullname=form.fullname,
+        username=form.username,
+        role="user",
+        password=get_password_hash(form.password))
+    db.add(user)
+    db.commit()
+
+
+def update_user_f(ident, form, db, user):
+    if user.id == ident:
+        db.query(Users).filter(Users.id == user.id).update({
+            Users.name: form.name,
+            Users.username: form.username,
+            Users.password: get_password_hash(form.password),
+            Users.role: "admin",
+        })
+        db.commit()
+        return {"message": "user updated"}
+
+
+def delete_user_f(db, user):
+    db.query(Users).filter(Users.id == user.id).delete()
+    db.commit()

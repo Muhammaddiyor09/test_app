@@ -1,0 +1,44 @@
+from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.orm import Session
+from functions.users import get_users, create_user_f, update_user_f, delete_user_f
+from models.users import Users
+from routers.login import get_current_user, get_current_active_user
+from schemas.users import SchemaUser
+from db import database
+
+users_router = APIRouter(
+    prefix="/users",
+    tags=["Users operation"]
+)
+
+
+@users_router.get('/get_all_users')
+def get(db: Session = Depends(database),
+        current_user: SchemaUser = Depends(get_current_user)):
+    return get_users(db, current_user)
+
+
+@users_router.get('/get')
+def get(db: Session = Depends(database), current_user: SchemaUser = Depends(get_current_user)):
+    return db.query(Users).filter(Users.id == current_user.id).first()
+
+
+@users_router.post('/create')
+def create_user(form: SchemaUser, db: Session = Depends(database),
+                ):
+    create_user_f(form, db)
+    raise HTTPException(status_code=200, detail="Amaliyot muvaffaqiyatli amalga oshirildi")
+
+
+@users_router.put("/update")
+def update_user(form: SchemaUser, db: Session = Depends(database),
+                current_user: SchemaUser = Depends(get_current_user)):
+    update_user_f(form, db, current_user)
+    raise HTTPException(status_code=200, detail="Amaliyot muvaffaqiyatli amalga oshirildi")
+
+
+@users_router.delete("/delete")
+def delete_user(db: Session = Depends(database),
+                current_user: SchemaUser = Depends(get_current_user)):
+    delete_user_f(db, current_user)
+    raise HTTPException(status_code=200, detail="Amaliyot muvaffaqiyatli amalga oshirildi")

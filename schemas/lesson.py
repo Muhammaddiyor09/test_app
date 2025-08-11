@@ -1,0 +1,8 @@
+# from typing import Optional
+# from pydantic import BaseModel
+#
+#
+# class SchemaLesson(BaseModel):
+#     name: str
+#     icon: Optional[str]
+#     science_id: int
