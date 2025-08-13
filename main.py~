@@ -14,7 +14,7 @@ from routers.result import router as result
 description = """
 ------------------------------
 **Username and password for Admin**
-* Login: **md**
+* Login: **MD**
 * Parol: **mmd**
 ------------------------------
 """
