@@ -9,4 +9,4 @@ class Users(Base):
     username = Column(String(255), nullable=False)
     password = Column(String(255), nullable=False)
     role = Column(String(255), nullable=False)
-    balans = Column(Integer, nullable=False)
+    belens = Column(Integer, nullable=False)

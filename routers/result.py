@@ -1,0 +1,37 @@
+from fastapi import APIRouter, HTTPException, Depends
+from sqlalchemy.orm import Session
+from functions.result import create_result
+from models.result import Result
+from models.users import Users
+from routers.login import get_current_active_user
+from db import database
+from schemas.result import SchemaResult
+
+router = APIRouter(
+    prefix="/result",
+    tags=["Result operation"]
+)
+
+
+@router.get("/get_all")
+def get(db: Session = Depends(database), current_user: Users = Depends(get_current_active_user)):
+    try:
+        return db.query(Result).filter(Result.user_id == current_user.id).all()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/get_all_by_test_id")
+def get_all_by_test_id(test_id: int, db: Session = Depends(database), current_user: Users = Depends(get_current_active_user)):
+    try:
+        return db.query(Result).filter(Result.test_id == test_id).all()
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.post("/create_resalt")
+def create(form: SchemaResult, db: Session = Depends(database), current_user: Users = Depends(get_current_active_user)):
+    try:
+        return create_result(form, db, current_user)
+    except Exception as e:
+        raise HTTPException(400, str(e))

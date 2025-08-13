@@ -13,7 +13,10 @@ def create_user_f(form, db):
         fullname=form.fullname,
         username=form.username,
         role="admin",
-        password=get_password_hash(form.password))
+        password=get_password_hash(form.password),
+        belens=0
+        )
+
     db.add(user)
     db.commit()
 

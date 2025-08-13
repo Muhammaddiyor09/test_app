@@ -8,12 +8,13 @@ from routers.science import router as science
 from routers.lesson import router as lesson
 from routers.information import router as information
 from routers.test import router as test
+from routers.result import router as result
 
 
 description = """
 ------------------------------
 **Username and password for Admin**
-* Login: **md**
+* Login: **MD**
 * Parol: **mmd**
 ------------------------------
 """
@@ -33,6 +34,7 @@ app.include_router(science)
 app.include_router(lesson)
 app.include_router(information)
 app.include_router(test)
+app.include_router(result)
 
 app.add_middleware(
     CORSMiddleware,

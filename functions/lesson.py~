@@ -1,13 +1,10 @@
 from models.lesson import Lesson
-from models.science import Science
 from utils.icon import upload_icon
 
 
 def create_lesson(name, icon, science_id, db, current_user):
     if current_user.role != 'admin':
         return {'message': 'siz admin emassiz'}
-    if not db.query(Science).filter(Science.id == science_id).first():
-        return {"message": "bunfay science mavjud emas"}
     icon_name = upload_icon(icon)
     lesson = Lesson(name=name,
                     icon=icon_name,
@@ -20,8 +17,6 @@ def create_lesson(name, icon, science_id, db, current_user):
 def update_lesson(ident, name, icon, science_id, db, current_user):
     if current_user.role != 'admin':
         return {'message': 'siz admin emassiz'}
-    if not db.query(Science).filter(Science.id == science_id).first():
-        return {"message": "bunfay science mavjud emas"}
     db.query(Lesson).filter(Lesson.id == ident).update({Lesson.name: name,
                                                         Lesson.icon: upload_icon(icon),
                                                         Lesson.science_id: science_id,
