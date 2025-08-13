@@ -35,3 +35,4 @@ def create(form: SchemaResult, db: Session = Depends(database), current_user: Us
         return create_result(form, db, current_user)
     except Exception as e:
         raise HTTPException(400, str(e))
+

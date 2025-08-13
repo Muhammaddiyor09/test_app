@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends
 from sqlalchemy.orm import Session
-from functions.result import create_result, delete_result
+from functions.result import create_result
 from models.result import Result
 from models.users import Users
 from routers.login import get_current_active_user
@@ -35,13 +35,3 @@ def create(form: SchemaResult, db: Session = Depends(database), current_user: Us
         return create_result(form, db, current_user)
     except Exception as e:
         raise HTTPException(400, str(e))
-
-
-@router.delete("/delete")
-def delete(ident: int, db: Session = Depends(database), current_user: Users = Depends(get_current_active_user)):
-    try:
-        return delete_result(ident, db, current_user)
-    except Exception as e:
-        raise HTTPException(400, str(e))
-
-

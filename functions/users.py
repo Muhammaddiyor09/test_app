@@ -14,7 +14,7 @@ def create_user_f(form, db):
         username=form.username,
         role="admin",
         password=get_password_hash(form.password),
-        belens=0
+        balans=0
         )
 
     db.add(user)
